@@ -17,6 +17,7 @@ function renderButtons(){
 			.attr("data-name",topic)
 		$("#emotions-buttons").append(newButton)
 	});
+
 }
 
 
@@ -31,15 +32,7 @@ function switchImage(){
 }
 
 
-$("#add-emotion").on("click", function(event){
-	event.preventDefault();
 
-	var emotion = $("#emotion-input").val().trim();
-
-	topics.push(emotion);
-
-	renderButtons()
-})
 
 function showGiphy(){
 
@@ -47,7 +40,7 @@ function showGiphy(){
 
 	var chosenEmotion = $(this).attr("data-name")
 	
-
+// 
 	queryURL = "https://api.giphy.com/v1/gifs/search?q=" + chosenEmotion + "&api_key=dc6zaTOxFJmzC&limit=10"
 	
 	// console.log(queryURL)
@@ -63,24 +56,61 @@ function showGiphy(){
       		//appending necessary classes and attributes
       		//and appending to the emotions <div>
 			imagesArray.forEach(function(imageItem){
+
+
 				//create a new image variable
+				var newImagePackage = $("<div>")
+					.addClass("emotion-package")
+
 				var newImage = $("<img>")
+
+				 var newImageRating= $("<p>")
+				 	// .addClass("emotion-package")
+
 
 				var newImageUrlStill = (imageItem.images.fixed_height_still.url)
 				//newImageUrlStill=newImageUrlStill.substring(0,newImageUrlStill.indexOf("?"))
 				var newImageUrlActive = (imageItem.images.fixed_height.url)
 				//newImageUrlActive=newImageUrlActive.substring(0,newImageUrlActive.indexOf("?"))
+				newImageRating.text("Rating: "+ imageItem.rating)
+
+				console.log(newImageUrlActive)
+				//console.log(newImageRating)
+
 				newImage.attr("src",newImageUrlStill)
 				newImage.attr("data-still", newImageUrlStill)
 				newImage.attr("data-active", newImageUrlActive)
 				newImage.on("click", switchImage)
-				 $(".emotions").append(newImage)
+
+				$(newImagePackage).append(newImageRating)
+
+				 $(newImagePackage).append(newImage)
+
+				 
+
+				 $(".emotions").append(newImagePackage)
 			})
 		})
 }
 renderButtons();
 
 $(document).on("click", ".emotion", showGiphy);
+
+$("#add-emotion").on("click", function(event){
+	event.preventDefault();
+
+	var emotionVal = $("#emotion-input").val().trim();
+
+	topics.push(emotionVal);
+
+	renderButtons()
+
+	$("#emotion-input").val("")
+
+
+
+
+})
 
 topics.forEach(function(a){
 	

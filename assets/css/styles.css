@@ -8,5 +8,13 @@
 }
 
 img{
-	margin:5px 5px 5px 5px ;
+	margin:0px 5px 5px 5px ;
+}
+
+.emotion-package {
+    display: inline-block;
+}
+
+p{
+	margin-top: 0px;
 }
